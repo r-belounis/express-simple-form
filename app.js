@@ -10,6 +10,7 @@ const students = [];
 // Config express & port
 const port = 4000;
 const app = express();
+const router = express.Router();
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -22,7 +23,7 @@ app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redi
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 // Routes & main application
-app.get('/', function (req, res) {
+router.get('/', function (req, res) {
     res.render('home', {
       titleStudents,
       students,
@@ -31,14 +32,21 @@ app.get('/', function (req, res) {
 });
 
 // Form configuration
-app.route('students/add').post((req, res) => {
-  console.log('username :', req.body.username);
-  let username = req.body.username;
-  // students.push(res.body.username);
-  // console.log(students);
-  // res.send(students);
-  res.send(username + 'is added succesfuly');
+router.route('/students/add')
+    .post(function(req, res) {
+        const username = req.body.username;
+        students.push(req.body.username);
+        res.render('form', {
+          username
+        })
+        console.log('new user:', students);
+    })
+    .get(function(req,res){
+        res.json({message: 'get request from signup'});
 });
+
+// add router in the Express app.
+app.use("/", router);
 
 // Run server on port :3000
 app.listen(port, () => {

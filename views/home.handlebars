@@ -4,9 +4,9 @@
             {{!-- Title for students list --}}
             <h1>{{titleStudents}}</h1>
             {{!-- List of added students  --}}
-            <ul>
+            <ul class="list-group">
                 {{#each students}}
-                    <li>{{this}}</li>
+                    <li class="list-group-item">{{this}}</li>
                 {{/each}}
             </ul>
         </div>
@@ -15,8 +15,10 @@
             <h1>{{titleForm}}</h1>
             {{!-- form for adding students --}}
             <form method="post" action="students/add">
-                <input name="username" />
-                <button type="submit">Send</button>
+                <div class="form-group">
+                    <input name="username" class="form-control" id="studentsName" aria-describedby="studentsName">
+                    <button type="submit" class="btn btn-primary mt-3">Send</button>
+                </div>
             </form>
         </div>
     </div>
